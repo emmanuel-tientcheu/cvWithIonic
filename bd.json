@@ -1,0 +1,100 @@
+{
+  "informations":{
+    "image":"image au format b-64",
+    "nom":"OBAM DIMI ARIEL JUNIOR",
+    "resume":"Etudiant en administration reseau"
+  },
+  "localisation":{
+    "telephone":"+237 699648009",
+    "email":"arieldimi094@gmail.com",
+    "adresse":"EKOUNOU YAOUNDE CAMEROUN"
+  },
+  "liens":{
+    "github":"https://github.com/Obamdimi",
+    "linkedin":"",
+    "stack":""
+  },
+  "interets":[
+    {
+      "id":1,
+      "interet":"Roller"
+    },
+    {
+      "id":2,
+      "interet":"Mangas"
+    },
+    {
+      "id":3,
+      "interet":"Musique"
+    },
+    {
+      "id":4,
+      "interet":"Sport"
+    }
+  ],
+  "langages":[
+    {
+      "id":1,
+      "langue":"Français",
+      "Etat":"lis , Parle , Écris"
+    },
+    {
+      "id":2,
+      "langue":"Anglais",
+      "Etat":"Lis , ne parle pas bien , Ecris"
+    }
+  ],
+  "competences":[
+    {
+      "id":1,
+      "titre":"JavaScript",
+      "pourcentage":80
+    },
+    {
+      "id":2,
+      "titre":"TypeScript",
+      "pourcentage":85
+    }
+  ],
+  "formations":[
+    {
+      "id":1,
+      "titre":"Baccalauréat",
+      "etablissement":"Lycée bilingue de kye-ossi",
+      "dateDedut":2018,
+      "dateFin":2019
+    },
+    {
+      "id":2,
+      "titre":"Probatoire",
+      "etablissement":"Lycée bilingue de kye-ossi",
+      "dateDedut":2017,
+      "dateFin":2018
+    },
+    {
+      "id":1,
+      "titre":"BEPC",
+      "etablissement":"Lycée bilingue de kye-ossi",
+      "dateDedut":2015,
+      "dateFin":2016
+    },
+    {
+      "id":1,
+      "titre":"CEPE",
+      "etablissement":"École catholique de kye-ossi",
+      "dateDedut":2011,
+      "dateFin":2012
+    }
+  ],
+  "experiences":[
+    {
+      "id":1,
+      "poste":"Stagiaire",
+      "entreprise":"12ECONSUOLTING",
+      "dateDedut":2018,
+      "dateFin":2018,
+      "description":"Charge de maintenance du matériel"
+    }
+  ]
+
+}
