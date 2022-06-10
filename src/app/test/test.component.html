@@ -1,0 +1,59 @@
+<ul>
+  <li *ngFor='let doc of myArray'>
+      {{doc.field}}
+  </li>
+</ul>
+
+<div *ngIf="single">
+  <h1>{{single.field}}</h1>
+  <button style="background-color: lightblue" (click)='openEdit()'>Edit</button>
+  <button style="background-color: red">Delete</button>
+</div>
+
+<div *ngIf="print">
+  <h2>{{ print.field }}</h2>
+</div>
+
+  <input
+    placeholder="New Value"
+    formControlName="newValue"
+    type="text"
+    class="input-field col s12"
+    id="text1"
+  />
+  <button (click)="onSubmit()">
+    Submit
+  </button>
+
+<input
+  placeholder="value1"
+  formControlName="valueToGet"
+  type="text"
+  class="input-field col s12"
+  id="text2"
+/>
+<button (click)="onQuery()">
+  Query
+</button>
+
+<div *ngIf="edit">
+<input
+placeholder="{{single.field}}"
+formControlName="replaceValue"
+type="text"
+class="input-field col s12"
+id="text3"
+/>
+<button (click)="onRename()">
+Rename
+</button>
+</div>
+
+<input
+type="text"
+class="input-field col s12"
+id="text4"
+/>
+<button (click)="give()">
+give
+</button>
