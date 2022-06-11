@@ -1,29 +1,220 @@
-<ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
+<nav class="navbar navbar-expand navbar-light bg-primary d-flex justify-content-between">
+  <div class="navbar-brand mb-0 h1 text-white">CRÉATION DE CV EN LIGNE</div>
+  <div class="navbar-brand mb-0 h1 text-white">
+    <a href="https://github.com/Obamdimi" class="text-white h3 mr-3" title="GitHub"><i
+        class="fab fa-github"></i></a>
+    <a href="https://stackoverflow.com/users/19249652/obamdimi" title="Stackoverflow" class="text-white h3"><i class="fas fa-globe"></i></a>
+  </div>
+</nav>
+<div class="container-fluid">
+  <form #resumeForm="ngForm">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="shadow-sm card">
+          <div class="card-body">
+            <h4 class="card-title d-flex align-items-center">
+              <i class="material-icons">
+                account_circle
+              </i>
+              Mes Informations</h4>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" class="form-control" [(ngModel)]="resume.name" name="name" placeholder="Nom"
+                    #Name="ngModel" required
+                    [ngClass]="{'is-invalid': Name.invalid && (Name.touched || resumeForm.submitted) }">
+                </div>
+                <div class="form-group">
+                  <div class="form-group">
+                    <textarea class="form-control" [(ngModel)]="resume.address" name="address" rows="3"
+                      placeholder="Adresse: quartier-ville" #Address="ngModel" required
+                      [ngClass]="{'is-invalid': Address.invalid && (Address.touched || resumeForm.submitted) }"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" class="form-control" [(ngModel)]="resume.contactNo" name="contactNo"
+                    placeholder="Téléphone." #ContactNo="ngModel" required
+                    [ngClass]="{'is-invalid': ContactNo.invalid && (ContactNo.touched || resumeForm.submitted) }">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" [(ngModel)]="resume.email" name="emailId"
+                    placeholder="exempleEmail@gmail.com" #Email="ngModel" required
+                    [ngClass]="{'is-invalid': Email.invalid && (Email.touched || resumeForm.submitted) }">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" [(ngModel)]="resume.socialProfile" name="socialProfile"
+                    placeholder="Réseaux sauciaux">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
+        <!-- Compétences -->
+        <div class="shadow-sm card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between card-title">
+              <h4 class="d-flex align-items-center">
+                <i class="material-icons">
+                  timeline
+                </i>
+                Compétences</h4>
+              <button class="btn btn-primary" (click)="addSkill()">+</button>
+            </div>
+            <div class="row">
+              <div class="col-md-4" *ngFor="let s of resume.skills; let i=index">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="skill{{i}}" [(ngModel)]="s.value"
+                    placeholder="exemple developpeur" #Skill="ngModel" required
+                    [ngClass]="{'is-invalid': Skill.invalid && (Skill.touched || resumeForm.submitted) }">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
 
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-content>
-    </ion-menu>
-    <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-split-pane>
-</ion-app>
+        <!-- Experiences -->
+        <div class="shadow-sm card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between card-title">
+              <h4 class="d-flex align-items-center">
+                <i class="material-icons">
+                  timeline
+                </i>
+                Experiences professionnelles</h4>
+              <button class="btn btn-primary" (click)="addExperience()">+</button>
+            </div>
+            <div class="row" *ngFor="let ex of resume.experiences; let i=index">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="employer{{i}}" [(ngModel)]="ex.employer"
+                    placeholder="Entreprise" #Employer="ngModel" required
+                    [ngClass]="{'is-invalid': Employer.invalid && (Employer.touched || resumeForm.submitted) }">
+                </div>
+                <div class="form-group">
+                  <div class="form-group">
+                    <textarea class="form-control" name="jobDescription{{i}}" [(ngModel)]="ex.jobDescription" rows="3"
+                      placeholder="Description du job"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="jobTitle{{i}}" [(ngModel)]="ex.jobTitle"
+                    placeholder="ton job" #JobTitle="ngModel" required
+                    [ngClass]="{'is-invalid': JobTitle.invalid && (JobTitle.touched || resumeForm.submitted) }">
+                </div>
+                <div class="form-group">
+                  <input type="number" class="form-control" name="exInMonths{{i}}" [(ngModel)]="ex.experience"
+                    placeholder="Experience en mois" #Experience="ngModel" required
+                    [ngClass]="{'is-invalid': Experience.invalid && (Experience.touched || resumeForm.submitted) }">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="shadow-sm card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between card-title">
+              <h4 class="d-flex align-items-center">
+                <i class="material-icons">
+                  school
+                </i>
+                Education</h4>
+              <button class="btn btn-primary" (click)="addEducation()">+</button>
+            </div>
+            <div class="row" *ngFor="let ed of resume.educations; let i=index">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <select class="form-control" placeholder="Degree" name="degree{{i}}" [(ngModel)]="ed.degree"
+                    #Degree="ngModel" required
+                    [ngClass]="{'is-invalid': Degree.invalid && (Degree.touched || resumeForm.submitted) }">
+                    <option [value]="d" *ngFor="let d of degrees">{{d}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="college{{i}}" [(ngModel)]="ed.college"
+                    placeholder="Etablissement" #College="ngModel" required
+                    [ngClass]="{'is-invalid': College.invalid && (College.touched || resumeForm.submitted) }">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <input type="number" class="form-control" name="passingYear{{i}}" [(ngModel)]="ed.passingYear"
+                    placeholder="Temps en qnnées" #PassingYear="ngModel" required
+                    [ngClass]="{'is-invalid': PassingYear.invalid && (PassingYear.touched || resumeForm.submitted) }">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <input type="number" class="form-control" name="result{{i}}" [(ngModel)]="ed.percentage"
+                    placeholder="MOYENNE" #Percentage="ngModel" required
+                    [ngClass]="{'is-invalid': Percentage.invalid && (Percentage.touched || resumeForm.submitted) }">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Autres -->
+
+        <div class="shadow-sm card">
+          <div class="card-body">
+            <h4 class="card-title d-flex align-items-center">
+              <i class="material-icons"> list </i>Autres Details</h4>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <textarea type="text" class="form-control" [(ngModel)]="resume.otherDetails" name="otherDetails"
+                    rows="4"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="shadow-sm card action-buttons">
+          <button (click)="resumeForm.valid ? generatePdf('open') : ''"
+            class="btn btn-primary d-flex align-items-center justify-content-center">
+            <i class="material-icons">
+              picture_as_pdf
+            </i> <span>Voir le PDF</span></button>
+          <button (click)="resumeForm.valid ? generatePdf('download') : ''"
+            class="btn btn-primary d-flex align-items-center justify-content-center">
+            <i class="material-icons">
+              cloud_download
+            </i><span>Télécharger le PDF</span></button>
+          <button (click)="resumeForm.valid ? generatePdf('print') : ''"
+            class="btn btn-primary d-flex align-items-center justify-content-center">
+            <i class="material-icons">
+              print
+            </i><span>Imprimer le PDF</span></button>
+
+          <button type='reset' (click)="resetForm()"
+            class="btn btn-primary d-flex align-items-center justify-content-center">
+            <i class="material-icons">
+              clear
+            </i><span>réinitialiser</span></button>
+        </div>
+
+        <div class="card p-4">
+          <div class="form-group">
+            <label class="h4 mb-3" for="">Ajouter votre photo de profil</label>
+            <input type="file" class="form-control-file" (change)="fileChanged($event)" aria-describedby="fileHelpId">
+          </div>
+          <img *ngIf="resume.profilePic" [src]="resume.profilePic" class="img-thumbnail">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
