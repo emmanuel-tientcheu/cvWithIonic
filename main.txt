@@ -1,0 +1,172 @@
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { collection, doc, getDoc, getDocs, getFirestore } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { addDoc, Firestore, onSnapshot, setDoc, } from '@angular/fire/firestore';
+import { Icompetence } from '../Icompetence';
+
+
+type items = {
+  id:string,
+  text: string
+}
+
+@Component({
+  selector: 'app-main',
+  templateUrl: './main.page.html',
+  styleUrls: ['./main.page.scss'],
+})
+export class MainPage implements OnInit {
+ items: Observable<any[]>;
+ it: Observable<any[]>; 
+ firebase: string;
+ table:{} = [];
+ itemsList: items[] = [];
+ nextColl : items[] = [];
+ userUid : string;
+ its:items = {
+   id: '',
+   text: ''
+ }
+
+ //----------------------------------------------------------------
+competenceList: Icompetence[] = [];
+competence:Icompetence = {
+  id: '',
+  niveau: '',
+  nom: ''
+}
+ 
+
+  constructor(public firestore: AngularFirestore , public fire: Firestore){ 
+    this.items = this.firestore.collection('items').valueChanges();
+    console.table(this.items);
+    this.allUsers();
+   
+  }
+
+  ngOnInit() {
+    
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      this.userUid = user.uid;
+      console.log('the user id '+user.uid);
+      //creation du nouveau doc
+        setTimeout(() => {
+        this.its.id = user.uid;
+        this.its.text = ' ';
+        const dataInstance = collection(this.fire,'/items2/');
+        return setDoc(doc(dataInstance,'id1'),this.its);
+      },100)
+     // this.next3();
+      this.nextC()
+  
+     
+    })
+    //Generate my firStore path for each user
+    const auth1 = getAuth();
+    onAuthStateChanged(auth1, (user) =>{
+      /*console.log('generate');
+      const dataInstance = collection(this.fire,'/nusers/');
+      return setDoc(doc(dataInstance,user.uid,user.uid,'competences'),this.competence)*/
+    })
+  }
+  addFireStore(){
+      this.firestore.collection('items').add({
+      text:this.firebase
+    });
+    this.firebase = '';
+  }
+
+  getItems(){
+    const dbInstance = this.firestore.collection('users').snapshotChanges()
+    .subscribe((res) => {
+        res.map((e:any) => {
+        const data = e.payload.doc.data();
+        data.id = e.payload.doc.id();
+        this.it = data;
+        return data
+      })
+    },error => {
+      alert('error')
+    }
+    )
+    //console.table(dbInstance);
+  //  return dbInstance;
+  }
+  
+  createItem(item : items) {
+    item.id = this.firestore.createId();
+    return this.firestore.collection('/nusers/'+`${this.userUid}`+'/competences').add(item);
+  }
+
+  addsItems(){
+    this.its.id = '';
+    this.its.text=this.firebase;
+    this.createItem(this.its)
+  }
+
+  getAllUsers(){
+    return this.firestore.collection('/nusers/'+`${this.userUid}`+'/competences').snapshotChanges();
+  }
+
+  allUsers(){
+    console.log('salut');
+    this.getAllUsers().subscribe(res => {
+      this.itemsList = res.map((e: any)=>{
+        const data = e.payload.doc.data();
+        data.id = e.payload.doc.id;
+        setTimeout(()=>{
+          console.log('data');
+          console.log(data.id)
+        },1000)
+        return data
+      })
+    })
+  }
+
+  deleteItem(item: items){
+    this.firestore.doc('/nusers/'+`${this.userUid}`+'/competences/'+item.id).delete();
+  }
+
+  supItems(item: items){
+    if(window.confirm('/nusers/'+`${this.userUid}`+'/competences'+item.id+'?')){
+      this.deleteItem(item);
+    }
+    console.log(item)
+  }
+
+  //to access in the next collection
+  //'/nusers/'+`${this.userUid}`+'/competences'+item.id  '/items/'+item.id+'/next'
+  next(){
+    return this.firestore.collection('/nusers/'+`${this.userUid}`+'/competences').snapshotChanges();
+  }
+  nextC(){
+    console.log("next");
+    this.next().subscribe(res => {
+      this.nextColl = res.map((e: any)=>{
+        const data = e.payload.doc.data();
+        data.id = e.payload.doc.id;
+       console.log(data)
+        return data
+      })
+    })
+    console.log(this.nextColl)
+  }
+
+  async next3(){
+  /*  const ref = doc(this.fire,'/items/');
+    const docSnap = await getDoc(ref);
+    console.log(docSnap.data())*/
+    let next : any[]= []
+    onSnapshot(collection(this.fire,'nusers',`${this.userUid}`,'competences'),(querySnapshot)=>{
+      querySnapshot.forEach((doc)=>{
+      //  console.log(doc.data())
+       // next.push(doc.data());
+      })
+    }) 
+   // console.log(next)
+  }
+
+}
